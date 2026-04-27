@@ -2,6 +2,7 @@ name: Broken CI Pipeline
 on:
   push:
     branches: main
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu
