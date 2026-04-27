@@ -1,0 +1,46 @@
+name: Fixed CI Pipeline
+
+# Error 1 Fixed: branches must be a list
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    # Error 2 Fixed: ubuntu is not valid — must be ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          # Error 3 Fixed: version must be a quoted string not a float
+          python-version: '3.9'
+
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run Tests
+        run: pytest tests/ -v
+
+  build:
+    runs-on: ubuntu-latest
+    # Error 4 Fixed: build must wait for test to pass
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Image
+        run: docker build -t myapp .
+
+  deploy:
+    runs-on: ubuntu-latest
+    # Error 5 Fixed: deploy must depend on build not just test
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
