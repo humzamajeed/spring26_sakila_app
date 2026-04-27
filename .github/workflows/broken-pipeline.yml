@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu-this-will-fail
+    runs-on: ubuntu
     steps:
     - uses: actions/checkout@v4
     - name: Setup Python
