@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu
+    runs-on: windows-invalid-runner-xyz
     steps:
     - uses: actions/checkout@v4
     - name: Setup Python
